@@ -57,6 +57,10 @@ func App() *buffalo.App {
 		app.GET("/", HomeHandler)
 
 		app.ServeFiles("/assets", assetsBox)
+		// users routes
+		auth := app.Group("/users")
+		auth.GET("/register", UsersRegisterGet)
+		auth.POST("/register", UsersRegisterPost)
 	}
 
 	return app
