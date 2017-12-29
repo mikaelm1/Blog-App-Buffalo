@@ -26,7 +26,8 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       $: "jquery",
-      jQuery: "jquery"
+      jQuery: "jquery",
+      Popper: ['popper.js', 'default']
     }),
     new ExtractTextPlugin("[name].[hash].css"),
     new CopyWebpackPlugin(
