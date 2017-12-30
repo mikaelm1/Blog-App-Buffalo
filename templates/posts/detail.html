@@ -13,3 +13,50 @@
         <p><%= markdown(post.Content) %></p>
     </div>
 </div>
+<div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+        <br>
+        <h2>Comments</h2>
+        <%= if (current_user) { %>
+            <div class="row">
+                    <div class="col">
+                        <%= if (errors) { %>
+                            <%= errors %>
+                            <%= for (key, val) in errors { %>
+                                <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                                    <%= val %>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            <form action="<%= commentsCreatePath({pid: post.ID}) %>" method="POST">
+                <%= csrf() %>
+                <div class="form-group">
+                    <label for="comment">Add Comment</label>
+                    <textarea class="form-control" name="Content" id="content"  rows="5"><%= comment.Content %></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        <% } else { %>
+            <a href="<%= usersLoginPath() %>" class="btn btn-primary">Login to Comment</a>
+        <% } %>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <%= for (c) in comments { %>
+            <hr>
+            <p class="author"><%= c.Author.Username %></p>
+            <p><%= c.Content %></p>
+            <!-- Emails are unique, and '==' does not work with UUIDs -->
+            <%= if (current_user.Email == c.Author.Email) { %>
+                <a href="#" class="btn btn-danger btn-sm m-0">Delete comment</a>
+                <a href="#" class="btn btn-primary btn-sm m-0">Edit comment</a>
+            <% } %>
+        <% } %>
+    </div>
+</div>
