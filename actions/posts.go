@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"fmt"
+
 	"github.com/gobuffalo/buffalo"
 	"github.com/markbates/pop"
 	"github.com/mikaelm1/blog_app/models"
@@ -55,4 +57,15 @@ func PostsCreatePost(c buffalo.Context) error {
 	c.Flash().Add("success", "New post added successfully.")
 	// and redirect to the users index page
 	return c.Redirect(302, "/")
+}
+
+func PostsDetail(c buffalo.Context) error {
+	tx := c.Value("tx").(*pop.Connection)
+	post := &models.Post{}
+	if err := tx.Find(post, c.Param("pid")); err != nil {
+		return c.Error(404, err)
+	}
+	fmt.Println(post)
+	c.Set("post", post)
+	return c.Render(200, r.HTML("posts/detail"))
 }

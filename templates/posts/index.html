@@ -9,7 +9,7 @@
     <div class="col-md-8">
         <%= for (p) in posts { %>
             <hr>
-            <a href="#"><h1><%= p.Title %></h1></a>
+            <a href="<%= postsDetailPath({pid: p.ID}) %>"><h1><%= p.Title %></h1></a>
             <p><%= markdown(truncate(p.Content, {"size": 200})) %></p>
         <% } %>
     </div>

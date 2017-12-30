@@ -1,0 +1,14 @@
+<%= if (current_user.Admin) { %>
+    <div class="row">
+        <div class="col-md-3 offset-md-9">
+            <a href="#" class="btn btn-primary">Edit Post</a>
+            <a href="#" class="btn btn-danger">Delete Post</a>
+        </div>
+    </div>
+<% } %>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1 class="text-center"><%= post.Title %></h1>
+        <p><%= markdown(post.Content) %></p>
+    </div>
+</div>
