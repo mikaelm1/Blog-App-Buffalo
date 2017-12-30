@@ -106,3 +106,16 @@ func PostsEditPost(c buffalo.Context) error {
 	c.Flash().Add("success", "Post was updated successfully.")
 	return c.Redirect(302, "/posts/detail/%s", post.ID)
 }
+
+func PostsDelete(c buffalo.Context) error {
+	tx := c.Value("tx").(*pop.Connection)
+	post := &models.Post{}
+	if err := tx.Find(post, c.Param("pid")); err != nil {
+		return c.Error(404, err)
+	}
+	if err := tx.Destroy(post); err != nil {
+		return errors.WithStack(err)
+	}
+	c.Flash().Add("success", "Post was successfully deleted.")
+	return c.Redirect(302, "/posts/index")
+}

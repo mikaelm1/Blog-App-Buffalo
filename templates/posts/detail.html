@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-3 offset-md-9">
             <a href="<%= editPostsPath({pid: post.ID}) %>" class="btn btn-primary">Edit Post</a>
-            <a href="#" class="btn btn-danger">Delete Post</a>
+            <a href="<%= postsDeletePath({pid: post.ID}) %>" class="btn btn-danger">Delete Post</a>
         </div>
     </div>
 <% } %>
