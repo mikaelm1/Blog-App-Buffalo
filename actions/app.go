@@ -53,6 +53,7 @@ func App() *buffalo.App {
 			app.Stop(err)
 		}
 		app.Use(T.Middleware())
+		app.Use(SetCurrentUser)
 
 		app.GET("/", HomeHandler)
 
@@ -61,6 +62,9 @@ func App() *buffalo.App {
 		auth := app.Group("/users")
 		auth.GET("/register", UsersRegisterGet)
 		auth.POST("/register", UsersRegisterPost)
+		auth.GET("/login", UsersLoginGet)
+		auth.POST("/login", UsersLoginPost)
+		auth.GET("/logout", UsersLogout)
 	}
 
 	return app
