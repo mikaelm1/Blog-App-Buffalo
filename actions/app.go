@@ -68,6 +68,8 @@ func App() *buffalo.App {
 		postGroup.GET("/create", AdminRequired(PostsCreateGet))
 		postGroup.POST("/create", AdminRequired(PostsCreatePost))
 		postGroup.GET("/detail/{pid}", PostsDetail)
+		postGroup.GET("/edit/{pid}", AdminRequired(PostsEditGet))
+		postGroup.POST("/edit/{pid}", AdminRequired(PostsEditPost))
 	}
 
 	return app
