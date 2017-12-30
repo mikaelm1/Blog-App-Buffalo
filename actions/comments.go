@@ -89,7 +89,7 @@ func CommentsDelete(c buffalo.Context) error {
 	}
 	user := c.Value("current_user").(*models.User)
 	// only admins and comment creators can delete the comment
-	if user.ID != comment.AuthorID || user.Admin == false {
+	if user.ID != comment.AuthorID && user.Admin == false {
 		c.Flash().Add("danger", "You are not authorized to view that page.")
 		return c.Redirect(302, "/posts/detail/%s", comment.PostID)
 	}
