@@ -36,12 +36,48 @@ func CommentsCreatePost(c buffalo.Context) error {
 
 // CommentsEdit default implementation.
 func CommentsEditGet(c buffalo.Context) error {
+	tx := c.Value("tx").(*pop.Connection)
+	user := c.Value("current_user").(*models.User)
+	comment := &models.Comment{}
+	if err := tx.Find(comment, c.Param("cid")); err != nil {
+		return c.Error(404, err)
+	}
+	// make sure the comment was made by the logged in user
+	if user.ID != comment.AuthorID {
+		c.Flash().Add("danger", "You are not authorized to view that page.")
+		return c.Redirect(302, "/posts/detail/%s", comment.PostID)
+	}
+	c.Set("comment", comment)
 	return c.Render(200, r.HTML("comments/edit.html"))
 }
 
 // CommentsEdit default implementation.
 func CommentsEditPost(c buffalo.Context) error {
-	return c.Render(200, r.HTML("comments/edit.html"))
+	tx := c.Value("tx").(*pop.Connection)
+	comment := &models.Comment{}
+	if err := tx.Find(comment, c.Param("cid")); err != nil {
+		return c.Error(404, err)
+	}
+	if err := c.Bind(comment); err != nil {
+		return errors.WithStack(err)
+	}
+	user := c.Value("current_user").(*models.User)
+	// make sure the comment was made by the logged in user
+	if user.ID != comment.AuthorID {
+		c.Flash().Add("danger", "You are not authorized to view that page.")
+		return c.Redirect(302, "/posts/detail/%s", comment.PostID)
+	}
+	verrs, err := tx.ValidateAndUpdate(comment)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	if verrs.HasAny() {
+		c.Set("comment", comment)
+		c.Set("errors", verrs.Errors)
+		return c.Render(422, r.HTML("comments/edit.html"))
+	}
+	c.Flash().Add("success", "Comment updated successfully.")
+	return c.Redirect(302, "/posts/detail/%s", comment.PostID)
 }
 
 // CommentsDelete default implementation.
