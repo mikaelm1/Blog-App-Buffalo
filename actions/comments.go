@@ -82,5 +82,20 @@ func CommentsEditPost(c buffalo.Context) error {
 
 // CommentsDelete default implementation.
 func CommentsDelete(c buffalo.Context) error {
-	return c.Render(200, r.HTML("comments/delete.html"))
+	tx := c.Value("tx").(*pop.Connection)
+	comment := &models.Comment{}
+	if err := tx.Find(comment, c.Param("cid")); err != nil {
+		return c.Error(404, err)
+	}
+	user := c.Value("current_user").(*models.User)
+	// only admins and comment creators can delete the comment
+	if user.ID != comment.AuthorID || user.Admin == false {
+		c.Flash().Add("danger", "You are not authorized to view that page.")
+		return c.Redirect(302, "/posts/detail/%s", comment.PostID)
+	}
+	if err := tx.Destroy(comment); err != nil {
+		return errors.WithStack(err)
+	}
+	c.Flash().Add("success", "Comment deleted successfuly.")
+	return c.Redirect(302, "/posts/detail/%s", comment.PostID)
 }

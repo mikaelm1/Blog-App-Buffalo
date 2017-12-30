@@ -36,10 +36,10 @@
         <%= for (c) in comments { %>
             <hr>
             <p class="author"><%= c.Author.Username %></p>
-            <p><%= c.Content %></p>
+            <p style="white-space: pre-wrap;"><%= c.Content %></p>
             <!-- Emails are unique, and '==' does not work with UUIDs -->
             <%= if (current_user.Email == c.Author.Email) { %>
-                <a href="#" class="btn btn-danger btn-sm m-0">Delete comment</a>
+                <a href="<%= commentsDeletePath({cid: c.ID}) %>" class="btn btn-danger btn-sm m-0">Delete comment</a>
                 <a href="<%= editCommentsPath({cid: c.ID}) %>" class="btn btn-primary btn-sm m-0">Edit comment</a>
             <% } %>
         <% } %>
