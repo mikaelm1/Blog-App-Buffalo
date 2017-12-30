@@ -1,11 +1,11 @@
 development:
   dialect: "sqlite3"
-  database: /Users/mikaelm/go/src/github.com/mikaelm1/blog_app_development.sqlite
+  database: /Users/mikaelm/go/src/github.com/mikaelm1/blog_app/blog_app_development.sqlite
 
 test:
   dialect: "sqlite3"
-  database: /Users/mikaelm/go/src/github.com/mikaelm1/blog_app_test.sqlite
+  database: /Users/mikaelm/go/src/github.com/mikaelm1/blog_app/blog_app_test.sqlite
 
 production:
   dialect: "sqlite3"
-  database: /Users/mikaelm/go/src/github.com/mikaelm1/blog_app_production.sqlite
+  database: /Users/mikaelm/go/src/github.com/mikaelm1/blog_app/blog_app_production.sqlite

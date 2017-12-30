@@ -92,6 +92,13 @@ func UsersLoginPost(c buffalo.Context) error {
 	return c.Redirect(302, "/")
 }
 
+// UsersLogout clears the session and logs out the user.
+func UsersLogout(c buffalo.Context) error {
+	c.Session().Clear()
+	c.Flash().Add("success", "Goodbye!")
+	return c.Redirect(302, "/")
+}
+
 // SetCurrentUser attempts to find a user based on the current_user_id
 // in the session. If one is found it is set on the context.
 func SetCurrentUser(next buffalo.Handler) buffalo.Handler {
@@ -109,9 +116,14 @@ func SetCurrentUser(next buffalo.Handler) buffalo.Handler {
 	}
 }
 
-// UsersLogout clears the session and logs out the user.
-func UsersLogout(c buffalo.Context) error {
-	c.Session().Clear()
-	c.Flash().Add("success", "Goodbye!")
-	return c.Redirect(302, "/")
+// AdminRequired requires a user to be logged in and to be an admin before accessing a route.
+func AdminRequired(next buffalo.Handler) buffalo.Handler {
+	return func(c buffalo.Context) error {
+		user, ok := c.Value("current_user").(*models.User)
+		if ok && user.Admin {
+			return next(c)
+		}
+		c.Flash().Add("danger", "You are not authorized to view that page.")
+		return c.Redirect(302, "/")
+	}
 }

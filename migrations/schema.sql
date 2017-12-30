@@ -11,3 +11,11 @@ CREATE TABLE "users" (
 "created_at" DATETIME NOT NULL,
 "updated_at" DATETIME NOT NULL
 );
+CREATE TABLE "posts" (
+"id" TEXT PRIMARY KEY,
+"title" TEXT NOT NULL,
+"content" text NOT NULL,
+"author_id" char(36) NOT NULL,
+"created_at" DATETIME NOT NULL,
+"updated_at" DATETIME NOT NULL
+);
