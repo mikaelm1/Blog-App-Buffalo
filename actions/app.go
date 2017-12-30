@@ -37,11 +37,9 @@ func App() *buffalo.App {
 		if ENV == "development" {
 			app.Use(middleware.ParameterLogger)
 		}
-
 		// Protect against CSRF attacks. https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)
 		// Remove to disable this.
 		app.Use(csrf.New)
-
 		// Wraps each request in a transaction.
 		//  c.Value("tx").(*pop.PopTransaction)
 		// Remove to disable this.
@@ -65,6 +63,10 @@ func App() *buffalo.App {
 		auth.GET("/login", UsersLoginGet)
 		auth.POST("/login", UsersLoginPost)
 		auth.GET("/logout", UsersLogout)
+		postGroup := app.Group("/posts")
+		postGroup.GET("/index", PostsIndex)
+		postGroup.GET("/create", PostsCreateGet)
+		postGroup.POST("/create", PostsCreatePost)
 	}
 
 	return app
