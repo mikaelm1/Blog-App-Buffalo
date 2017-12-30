@@ -19,3 +19,11 @@ CREATE TABLE "posts" (
 "created_at" DATETIME NOT NULL,
 "updated_at" DATETIME NOT NULL
 );
+CREATE TABLE "comments" (
+"id" TEXT PRIMARY KEY,
+"content" text NOT NULL,
+"author_id" char(36) NOT NULL,
+"post_id" char(36) NOT NULL,
+"created_at" DATETIME NOT NULL,
+"updated_at" DATETIME NOT NULL
+);

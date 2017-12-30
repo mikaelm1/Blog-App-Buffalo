@@ -13,3 +13,35 @@
         <p><%= markdown(post.Content) %></p>
     </div>
 </div>
+<div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+        <br>
+        <h2>Comments</h2>
+        <%= if (current_user) { %>
+            <form action="<%= commentsCreatePath({pid: post.ID}) %>" method="POST">
+                <%= csrf() %>
+                <div class="form-group">
+                    <label for="comment">Add Comment</label>
+                    <textarea class="form-control" name="Content" id="content"  rows="5"><%= comment.Content %></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        <% } else { %>
+            <a href="<%= usersLoginPath() %>" class="btn btn-primary">Login to Comment</a>
+        <% } %>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <%= for (c) in comments { %>
+            <hr>
+            <p class="author"><%= c.Author.Username %></p>
+            <p style="white-space: pre-wrap;"><%= c.Content %></p>
+            <!-- Emails are unique, and '==' does not work with UUIDs -->
+            <%= if (current_user.Email == c.Author.Email) { %>
+                <a href="<%= commentsDeletePath({cid: c.ID}) %>" class="btn btn-danger btn-sm m-0">Delete comment</a>
+                <a href="<%= editCommentsPath({cid: c.ID}) %>" class="btn btn-primary btn-sm m-0">Edit comment</a>
+            <% } %>
+        <% } %>
+    </div>
+</div>
