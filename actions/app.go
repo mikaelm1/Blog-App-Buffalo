@@ -65,8 +65,8 @@ func App() *buffalo.App {
 		auth.GET("/logout", UsersLogout)
 		postGroup := app.Group("/posts")
 		postGroup.GET("/index", PostsIndex)
-		postGroup.GET("/create", PostsCreateGet)
-		postGroup.POST("/create", PostsCreatePost)
+		postGroup.GET("/create", AdminRequired(PostsCreateGet))
+		postGroup.POST("/create", AdminRequired(PostsCreatePost))
 	}
 
 	return app
