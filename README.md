@@ -1,6 +1,6 @@
 # Blog App
 
-A blogging app built with [Buffalo](https://gobuffalo.io/) for demonstration purposes. A tutorial on how to create this app from start to finish is coming soon.
+A blogging app built with [Buffalo](https://gobuffalo.io/) for the tutorial located at [https://mmikael.com/post/buffalo-part1/](https://mmikael.com/post/buffalo-part1/).
 
 ### Getting Started
 
@@ -11,9 +11,3 @@ $ buffalo dev
 ```
 
 If you now visit [http://localhost:3000](http://localhost:3000) in your browser, you should see the app.
-
-### TODO
-
-- [ ] Email users upon registering
-- [ ] Tags for posts (Many-to-Many relationship)
-- [ ] Add tests
