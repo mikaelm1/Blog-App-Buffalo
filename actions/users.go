@@ -1,21 +1,15 @@
 package actions
 
 import (
-	"database/sql"
-	"strings"
-
 	"github.com/gobuffalo/buffalo"
 	"github.com/markbates/pop"
 	"github.com/markbates/validate"
 	"github.com/mikaelm1/blog_app/models"
 	"github.com/pkg/errors"
-	"golang.org/x/crypto/bcrypt"
 )
 
 // UserRegisterGet displays a register form
 func UsersRegisterGet(c buffalo.Context) error {
-	// Make user available inside the html template
-	c.Set("user", &models.User{})
 	return c.Render(200, r.HTML("users/register.html"))
 }
 
@@ -52,40 +46,24 @@ func UsersRegisterPost(c buffalo.Context) error {
 
 // UsersLoginGet displays a login form
 func UsersLoginGet(c buffalo.Context) error {
-	c.Set("user", &models.User{})
 	return c.Render(200, r.HTML("users/login"))
 }
 
 // UsersLoginPost logs in a user.
 func UsersLoginPost(c buffalo.Context) error {
-	// Allocate an empty user
 	user := &models.User{}
 	// Bind the user to the html form elements
 	if err := c.Bind(user); err != nil {
 		return errors.WithStack(err)
 	}
-	// helper function to handle bad attempts
-	bad := func() error {
+	tx := c.Value("tx").(*pop.Connection)
+	err := user.Authorize(tx)
+	if err != nil {
 		c.Set("user", user)
 		verrs := validate.NewErrors()
 		verrs.Add("Login", "Invalid email or password.")
 		c.Set("errors", verrs.Errors)
 		return c.Render(422, r.HTML("users/login"))
-	}
-	// Get the DB connection from context
-	tx := c.Value("tx").(*pop.Connection)
-	err := tx.Where("email = ?", strings.ToLower(user.Email)).First(user)
-	if err != nil {
-		if errors.Cause(err) == sql.ErrNoRows {
-			// couldn't find an user with that email address
-			return bad()
-		}
-		return errors.WithStack(err)
-	}
-	// confirm that the given password matches the hashed password from the db
-	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(user.Password))
-	if err != nil {
-		return bad()
 	}
 	c.Session().Set("current_user_id", user.ID)
 	c.Flash().Add("success", "Welcome back!")

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"strings"
@@ -36,6 +37,24 @@ func (u *User) Create(tx *pop.Connection) (*validate.Errors, error) {
 	}
 	u.PasswordHash = string(pwdHash)
 	return tx.ValidateAndCreate(u)
+}
+
+// Authorize checks user's password for logging in
+func (u *User) Authorize(tx *pop.Connection) error {
+	err := tx.Where("email = ?", strings.ToLower(u.Email)).First(u)
+	if err != nil {
+		if errors.Cause(err) == sql.ErrNoRows {
+			// couldn't find an user with that email address
+			return errors.New("User not found.")
+		}
+		return errors.WithStack(err)
+	}
+	// confirm that the given password matches the hashed password from the db
+	err = bcrypt.CompareHashAndPassword([]byte(u.PasswordHash), []byte(u.Password))
+	if err != nil {
+		return errors.New("Invalid password.")
+	}
+	return nil
 }
 
 // String is not required by pop and may be deleted
