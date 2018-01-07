@@ -8,7 +8,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-// CommentsCreate default implementation.
+// CommentsCreatePost adds the comment to the db.
 func CommentsCreatePost(c buffalo.Context) error {
 	comment := &models.Comment{}
 	user := c.Value("current_user").(*models.User)
@@ -34,7 +34,7 @@ func CommentsCreatePost(c buffalo.Context) error {
 	return c.Redirect(302, "/posts/detail/%s", c.Param("pid"))
 }
 
-// CommentsEdit default implementation.
+// CommentsEditGet displays a form to edit a comment.
 func CommentsEditGet(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
 	user := c.Value("current_user").(*models.User)
@@ -51,7 +51,7 @@ func CommentsEditGet(c buffalo.Context) error {
 	return c.Render(200, r.HTML("comments/edit.html"))
 }
 
-// CommentsEdit default implementation.
+// CommentsEditPost process the edit form of a comment.
 func CommentsEditPost(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
 	comment := &models.Comment{}
@@ -80,7 +80,7 @@ func CommentsEditPost(c buffalo.Context) error {
 	return c.Redirect(302, "/posts/detail/%s", comment.PostID)
 }
 
-// CommentsDelete default implementation.
+// CommentsDelete deletes the comment from the db.
 func CommentsDelete(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
 	comment := &models.Comment{}
