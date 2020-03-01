@@ -1,11 +1,23 @@
 development:
-  dialect: "sqlite3"
-  database: /Users/mikaelm/go/src/github.com/mikaelm1/blog_app/blog_app_development.sqlite
+  dialect: postgres
+  database: blog
+  user: postgres
+  password: mysecretpassword
+  host: 127.0.0.1
+  pool: 5
 
 test:
-  dialect: "sqlite3"
-  database: /Users/mikaelm/go/src/github.com/mikaelm1/blog_app/blog_app_test.sqlite
+  dialect: postgres
+  database: blog
+  user: postgres
+  password: mysecretpassword
+  host: 127.0.0.1
+  pool: 5
 
 production:
-  dialect: "sqlite3"
-  database: /Users/mikaelm/go/src/github.com/mikaelm1/blog_app/blog_app_production.sqlite
+  dialect: postgres
+  database: blog
+  user: postgres
+  password: mysecretpassword
+  host: 127.0.0.1
+  pool: 5

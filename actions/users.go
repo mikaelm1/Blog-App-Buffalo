@@ -2,9 +2,9 @@ package actions
 
 import (
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop"
-	"github.com/markbates/validate"
-	"github.com/mikaelm1/blog_app/models"
+	"github.com/gobuffalo/pop"
+	"github.com/gobuffalo/validate"
+	"github.com/mikaelm1/Blog-App-Buffalo/models"
 	"github.com/pkg/errors"
 )
 

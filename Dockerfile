@@ -1,16 +1,17 @@
 # This is a multi-stage Dockerfile and requires >= Docker 17.05
 # https://docs.docker.com/engine/userguide/eng-image/multistage-build/
-FROM gobuffalo/buffalo:v0.10.2 as builder
+FROM gobuffalo/buffalo:v0.15.5 as builder
 
-RUN mkdir -p $GOPATH/src/github.com/mikaelm1/blog_app
-WORKDIR $GOPATH/src/github.com/mikaelm1/blog_app
+RUN mkdir -p $GOPATH/src/github.com/mikaelm1/Blog-App-Buffalo
+WORKDIR $GOPATH/src/github.com/mikaelm1/Blog-App-Buffalo
 
 # this will cache the npm install step, unless package.json changes
 ADD package.json .
 ADD yarn.lock .
 RUN yarn install --no-progress
 ADD . .
-RUN go get $(go list ./... | grep -v /vendor/)
+ENV GOPROXY="https://proxy.golang.org"
+ENV GO111MODULE="on"
 RUN buffalo build --static -o /bin/app
 
 FROM alpine

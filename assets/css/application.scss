@@ -1,28 +1,28 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
-@import "~font-awesome/css/font-awesome.css";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
 
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
 .author {
-    font-size: 150%;
-    font-style: italic;
-    color: rgb(14, 84, 165);
+  font-size: 150%;
+  font-style: italic;
+  color: rgb(14, 84, 165);
 }
 
 .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    border-top: 1px solid #e9e9e9;
-    /* Set the fixed height of the footer here */
-    height: 60px;
-    line-height: 60px; /* Vertically center the text there */
-    background-color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #e9e9e9;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: white;
 }
 
 body {
-    margin-bottom: 70px;
+  margin-bottom: 70px;
 }
