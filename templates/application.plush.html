@@ -1,18 +1,25 @@
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Buffalo - Blog App</title>
     <%= stylesheetTag("application.css") %>
     <meta name="csrf-param" content="authenticity_token" />
     <meta name="csrf-token" content="<%= authenticity_token %>" />
   </head>
   <body>
-
     <div class="container">
       <!-- NavBar -->
       <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
         <a class="navbar-brand" href="<%= rootPath() %>">Blog App</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -23,31 +30,30 @@
           </ul>
           <ul class="navbar-nav">
             <%= if (current_user) { %>
-              <li class="nav-item">
-                <a href="<%= usersLogoutPath() %>" class="nav-link">Logout</a>
-              </li>
-              <% } else { %>
-                <li class="nav-item">
-                  <a href="<%= usersLoginPath() %>" class="nav-link">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a href="<%= usersRegisterPath() %>" class="nav-link">Register</a>
-                </li>
+            <li class="nav-item">
+              <a href="<%= usersLogoutPath() %>" class="nav-link">Logout</a>
+            </li>
+            <% } else { %>
+            <li class="nav-item">
+              <a href="<%= usersLoginPath() %>" class="nav-link">Login</a>
+            </li>
+            <li class="nav-item">
+              <a href="<%= usersRegisterPath() %>" class="nav-link">Register</a>
+            </li>
             <% } %>
           </ul>
         </div>
-      </nav> 
-      <!-- End NavBar -->       
-      <%= partial("flash.html") %>
-      <%= yield %>
+      </nav>
+      <!-- End NavBar -->
+      <%= partial("flash.html") %> <%= yield %>
     </div>
     <footer class="footer text-center fixed-bottom">
       <div>
-          <ul class="list-inline">
-            <li class="text-muted">Blog App &copy; 2017</li>
-          </ul>
+        <ul class="list-inline">
+          <li class="text-muted">Blog App &copy; 2020</li>
+        </ul>
       </div>
-  </footer>
+    </footer>
 
     <%= javascriptTag("application.js") %>
   </body>
